@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>BMW Federal Drive Cycle Timer</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <style>
+    * { box-sizing: border-box; }
+    html, body, #root { height: 100%; margin: 0; padding: 0; background: #000; overscroll-behavior: none; -webkit-font-smoothing: antialiased; }
+    body { font-family: 'Barlow Condensed', 'Helvetica Neue', sans-serif; color: #F5F5F5; }
+    button { font-family: inherit; }
+    button:focus-visible { outline: 2px solid #FFD400; outline-offset: 2px; }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.35; }
+    }
+
+    /* Landscape warning for portrait phones */
+    @media (orientation: portrait) and (max-width: 900px) {
+      .landscape-nag { display: flex !important; }
+    }
+    .landscape-nag {
+      display: none;
+      position: fixed; inset: 0; z-index: 9999;
+      background: #000; color: #FFD400;
+      align-items: center; justify-content: center;
+      flex-direction: column; gap: 24px;
+      font-family: 'Barlow Condensed', sans-serif;
+      text-align: center; padding: 40px;
+    }
+    .landscape-nag svg { animation: rotate-hint 2.4s ease-in-out infinite; }
+    @keyframes rotate-hint {
+      0%, 40% { transform: rotate(0deg); }
+      60%, 100% { transform: rotate(-90deg); }
+    }
+
+    /* Range input styling */
+    input[type="range"] {
+      height: 22px;
+      background: transparent;
+    }
+    input[type="range"]::-webkit-slider-runnable-track {
+      height: 6px; background: #222; border: 1px solid #333;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none; appearance: none;
+      width: 22px; height: 22px; background: var(--accent, #FFD400);
+      margin-top: -8px; cursor: pointer; border: 2px solid #000;
+    }
+
+    ::selection { background: #FFD400; color: #000; }
+  </style>
+
+  <!-- React + Babel (pinned, per house rules) -->
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- Portrait nag (only shows on phones held vertically) -->
+  <div class="landscape-nag" aria-hidden="true">
+    <svg width="96" height="96" viewBox="0 0 24 24" fill="none" stroke="#FFD400" stroke-width="1.6">
+      <rect x="5" y="2" width="14" height="20" rx="2" />
+      <circle cx="12" cy="18" r="1" fill="#FFD400" />
+    </svg>
+    <div style="font-size: 36px; font-weight: 800; letter-spacing: 4px;">ROTATE DEVICE</div>
+    <div style="font-size: 20px; letter-spacing: 2px; color: #F5F5F5; max-width: 480px;">
+      This app is designed for landscape use while the phone is mounted horizontally in the vehicle.
+    </div>
+  </div>
+
+  <script src="components/phases.js"></script>
+  <script type="text/babel" data-presets="react" src="components/app.jsx"></script>
+</body>
+</html>

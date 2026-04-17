@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:api.anthropic.com)",
+      "Bash(gunzip -c webfetch-1776469161665-5x5v9c.bin)",
+      "Bash(tar -xOf - \"drive-cycle-timer-app/project/Drive Cycle Timer.html\")",
+      "Bash(tar -tf -)",
+      "Bash(tar -xOf - \"drive-cycle-timer-app/project/components/phases.js\")",
+      "Bash(tar -xOf - \"drive-cycle-timer-app/project/components/app.jsx\")"
+    ]
+  }
+}
