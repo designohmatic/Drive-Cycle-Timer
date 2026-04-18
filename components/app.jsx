@@ -295,18 +295,17 @@ function App() {
 function TopBar({ theme, phaseIdx, total, gps, useManual, setUseManual, running, completed, overallProgress }) {
   return (
     <div style={{ display: "flex", alignItems: "stretch", borderBottom: `2px solid ${theme.line}`, background: theme.surface }}>
-      <div style={{ padding: "10px 16px", borderRight: `2px solid ${theme.line}`, display: "flex", alignItems: "center", gap: 14 }}>
-        <div style={{ width: 14, height: 14, background: running ? theme.go : (completed ? theme.accent : theme.dim), borderRadius: 2, boxShadow: running ? `0 0 12px ${theme.go}` : "none" }} />
-        <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 700, fontSize: 22, letterSpacing: 2, color: theme.ink }}>
+      <div style={{ padding: "7px 14px", borderRight: `2px solid ${theme.line}`, display: "flex", alignItems: "center", gap: 10 }}>
+        <div style={{ width: 10, height: 10, background: running ? theme.go : (completed ? theme.accent : theme.dim), borderRadius: 2, boxShadow: running ? `0 0 8px ${theme.go}` : "none", flexShrink: 0 }} />
+        <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 700, fontSize: 17, letterSpacing: 2, color: theme.ink, whiteSpace: "nowrap" }}>
           DRIVE CYCLE · BMW FEDERAL
         </div>
       </div>
-      <div style={{ flex: 1, padding: "0 24px", display: "flex", alignItems: "center", gap: 18 }}>
-        <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 16, color: theme.dim, letterSpacing: 1 }}>
-          PHASE <span style={{ color: theme.accent, fontWeight: 700 }}>{String(phaseIdx + 1).padStart(2, "0")}</span> <span style={{ opacity: 0.4 }}>/ {String(total).padStart(2, "0")}</span>
+      <div style={{ flex: 1, padding: "0 16px", display: "flex", alignItems: "center", gap: 12 }}>
+        <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 13, color: theme.dim, letterSpacing: 1, whiteSpace: "nowrap" }}>
+          <span style={{ color: theme.accent, fontWeight: 700 }}>{String(phaseIdx + 1).padStart(2, "0")}</span><span style={{ opacity: 0.4 }}>/{String(total).padStart(2, "0")}</span>
         </div>
-        <div style={{ flex: 1, height: 8, background: theme.surface2, borderRadius: 0, position: "relative", overflow: "hidden" }}>
-          <div style={{ position: "absolute", inset: 0, background: `repeating-linear-gradient(90deg, ${theme.line} 0, ${theme.line} 1px, transparent 1px, transparent calc(100% / 6))` }} />
+        <div style={{ flex: 1, height: 5, background: theme.surface2, position: "relative", overflow: "hidden" }}>
           <div style={{ width: `${Math.min(100, overallProgress * 100)}%`, height: "100%", background: theme.accent, transition: "width 0.5s linear" }} />
         </div>
       </div>
@@ -337,12 +336,12 @@ function topBtnStyle(theme, active) {
     borderLeft: `2px solid ${theme.line}`,
     background: active ? theme.accent : "transparent",
     color: active ? theme.accentInk : theme.ink,
-    padding: "0 20px",
+    padding: "0 14px",
     height: "100%",
     fontFamily: "'Barlow Condensed', sans-serif",
-    fontSize: 18,
+    fontSize: 15,
     fontWeight: 700,
-    letterSpacing: 2,
+    letterSpacing: 1,
     cursor: "pointer",
     whiteSpace: "nowrap",
     display: "flex",
@@ -353,33 +352,31 @@ function topBtnStyle(theme, active) {
 
 function LeftPhaseList({ theme, phaseIdx }) {
   return (
-    <div style={{ width: 240, borderRight: `2px solid ${theme.line}`, padding: "8px 0", display: "flex", flexDirection: "column", background: theme.bg }}>
-      <div style={{ padding: "0 20px 12px", fontFamily: "'Barlow Condensed', sans-serif", fontSize: 14, color: theme.dim, letterSpacing: 2 }}>SEQUENCE</div>
+    <div style={{ width: 210, borderRight: `2px solid ${theme.line}`, padding: "4px 0", display: "flex", flexDirection: "column", background: theme.bg }}>
       {PHASES.map((p, i) => {
         const done = i < phaseIdx;
         const active = i === phaseIdx;
         return (
           <div key={p.id} style={{
-            padding: "12px 16px 12px 20px",
-            borderLeft: `4px solid ${active ? theme.accent : (done ? theme.dim : "transparent")}`,
+            padding: "7px 10px 7px 12px",
+            borderLeft: `3px solid ${active ? theme.accent : (done ? theme.dim : "transparent")}`,
             background: active ? theme.surface : "transparent",
-            opacity: done ? 0.5 : 1,
-            position: "relative",
-            display: "flex", alignItems: "center", gap: 10,
+            opacity: done ? 0.45 : 1,
+            display: "flex", alignItems: "center", gap: 8,
           }}>
-            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 14, color: active ? theme.accent : theme.dim, fontWeight: 700, flex: "0 0 auto" }}>
+            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: active ? theme.accent : theme.dim, fontWeight: 700, flex: "0 0 auto" }}>
               {String(p.number).padStart(2, "0")}
             </div>
             <div style={{
-              fontFamily: "'Barlow Condensed', sans-serif", fontSize: 19, fontWeight: 700,
-              color: theme.ink, letterSpacing: 1, lineHeight: 1.05, flex: 1, minWidth: 0,
+              fontFamily: "'Barlow Condensed', sans-serif", fontSize: 16, fontWeight: 700,
+              color: theme.ink, letterSpacing: 0.5, flex: 1, minWidth: 0,
               whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
             }}>
               {p.name.toUpperCase()}
             </div>
             <div style={{
-              fontSize: 13, color: active ? theme.accent : theme.dim,
-              fontFamily: "'JetBrains Mono', monospace", letterSpacing: 1,
+              fontSize: 11, color: active ? theme.accent : theme.dim,
+              fontFamily: "'JetBrains Mono', monospace",
               flex: "0 0 auto", fontWeight: 700,
             }}>
               {done ? "✓" : fmtTime(p.duration)}
@@ -426,9 +423,6 @@ function CenterStage({ theme, phase, phaseIdx, running, completed, phaseRemainin
 
       {/* Timer */}
       <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", position: "relative", padding: "0 16px" }}>
-        {/* Corner tick marks */}
-        <CornerTicks theme={theme} />
-
         {/* Big timer */}
         <div style={{
           fontFamily: "'JetBrains Mono', monospace",
@@ -442,13 +436,12 @@ function CenterStage({ theme, phase, phaseIdx, running, completed, phaseRemainin
         }}>
           {fmtTime(phaseRemaining)}
         </div>
-        <div style={{ marginTop: 10, fontFamily: "'Barlow Condensed', sans-serif", fontSize: 22, color: theme.dim, letterSpacing: 4 }}>
+        <div style={{ marginTop: 6, fontFamily: "'Barlow Condensed', sans-serif", fontSize: 16, color: theme.dim, letterSpacing: 3 }}>
           REMAINING · TARGET {fmtTime(phase.duration)}
         </div>
 
         {/* Horizontal progress bar */}
-        <div style={{ width: "100%", maxWidth: 900, marginTop: 30, height: 14, background: theme.surface2, position: "relative", border: `1px solid ${theme.line}` }}>
-          <div style={{ position: "absolute", inset: 0, background: `repeating-linear-gradient(90deg, ${theme.line} 0, ${theme.line} 1px, transparent 1px, transparent 10%)` }} />
+        <div style={{ width: "100%", maxWidth: 900, marginTop: 14, height: 8, background: theme.surface2, position: "relative" }}>
           <div style={{
             width: `${Math.min(100, phaseProgress * 100)}%`,
             height: "100%",
@@ -538,19 +531,19 @@ function RightConditions({ theme, phase, currentSpeedMph, units, simRpm, setSimR
     <div style={{ width: 270, borderLeft: `2px solid ${theme.line}`, background: theme.bg, display: "flex", flexDirection: "column" }}>
       {/* Speed gauge */}
       <div style={{ padding: "8px 14px", borderBottom: `1px solid ${theme.line}` }}>
-        <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 14, color: theme.dim, letterSpacing: 2 }}>CURRENT SPEED</div>
-        <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginTop: 4 }}>
+        <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 11, color: theme.dim, letterSpacing: 2 }}>CURRENT SPEED</div>
+        <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginTop: 2 }}>
           <div style={{
             fontFamily: "'JetBrains Mono', monospace",
             fontWeight: 700,
-            fontSize: 72,
-            lineHeight: 0.95,
+            fontSize: 52,
+            lineHeight: 1,
             color: inBand ? theme.go : theme.accent,
             fontVariantNumeric: "tabular-nums",
           }}>
             {fmtSpeed(currentSpeedMph, units)}
           </div>
-          <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 22, color: theme.dim, letterSpacing: 2 }}>{speedLabel(units)}</div>
+          <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 16, color: theme.dim, letterSpacing: 2 }}>{speedLabel(units)}</div>
         </div>
 
         {/* Target band */}
@@ -568,28 +561,28 @@ function RightConditions({ theme, phase, currentSpeedMph, units, simRpm, setSimR
 
       {/* Instruction */}
       <div style={{ padding: "8px 14px", borderBottom: `1px solid ${theme.line}` }}>
-        <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 14, color: theme.dim, letterSpacing: 2 }}>INSTRUCTION</div>
-        <div style={{ marginTop: 6, fontFamily: "'Barlow Condensed', sans-serif", fontSize: 22, fontWeight: 500, color: theme.ink, lineHeight: 1.2, letterSpacing: 0.5 }}>
+        <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 11, color: theme.dim, letterSpacing: 2 }}>INSTRUCTION</div>
+        <div style={{ marginTop: 4, fontFamily: "'Barlow Condensed', sans-serif", fontSize: 16, fontWeight: 500, color: theme.ink, lineHeight: 1.2 }}>
           {phase.instruction}
         </div>
       </div>
 
       {/* RPM + Rules */}
       <div style={{ padding: "8px 14px", borderBottom: `1px solid ${theme.line}` }}>
-        <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 14, color: theme.dim, letterSpacing: 2 }}>RPM LIMIT</div>
-        <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginTop: 2 }}>
-          <div style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, fontSize: 38, color: simRpm > 3000 ? theme.alert : theme.ink, fontVariantNumeric: "tabular-nums" }}>{simRpm}</div>
-          <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 16, color: theme.dim, letterSpacing: 2 }}>/ 3000 RPM MAX</div>
+        <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 11, color: theme.dim, letterSpacing: 2 }}>RPM LIMIT</div>
+        <div style={{ display: "flex", alignItems: "baseline", gap: 6, marginTop: 2 }}>
+          <div style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, fontSize: 28, color: simRpm > 3000 ? theme.alert : theme.ink, fontVariantNumeric: "tabular-nums" }}>{simRpm}</div>
+          <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 13, color: theme.dim, letterSpacing: 1 }}>/ 3000 MAX</div>
         </div>
         <div style={{ fontSize: 11, color: theme.dim, fontFamily: "'JetBrains Mono', monospace", marginTop: 2, letterSpacing: 1 }}>SIM · DRAG TO TEST VIOLATIONS</div>
         <input type="range" min="600" max="4000" value={simRpm} onChange={(e) => setSimRpm(+e.target.value)} style={{ width: "100%", accentColor: simRpm > 3000 ? theme.alert : theme.accent, marginTop: 4 }} />
       </div>
 
       <div style={{ padding: "8px 14px", flex: 1, overflow: "auto" }}>
-        <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 14, color: theme.dim, letterSpacing: 2 }}>CONDITIONS</div>
+        <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 11, color: theme.dim, letterSpacing: 2 }}>CONDITIONS</div>
         <ul style={{ listStyle: "none", padding: 0, margin: "6px 0 0 0", display: "grid", gap: 4 }}>
           {phase.conditions.map((c, i) => (
-            <li key={i} style={{ display: "flex", alignItems: "center", gap: 8, fontFamily: "'Barlow Condensed', sans-serif", fontSize: 18, color: theme.ink, letterSpacing: 0.5 }}>
+            <li key={i} style={{ display: "flex", alignItems: "center", gap: 6, fontFamily: "'Barlow Condensed', sans-serif", fontSize: 14, color: theme.ink }}>
               <span style={{ display: "inline-block", width: 6, height: 6, background: theme.accent }} />
               {c}
             </li>
