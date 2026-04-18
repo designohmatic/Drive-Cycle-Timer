@@ -1,0 +1,10 @@
+{
+  "name": "BMW Drive Cycle Timer",
+  "short_name": "DriveCycle",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "start_url": "/drive-cycle-timer/",
+  "icons": []
+}

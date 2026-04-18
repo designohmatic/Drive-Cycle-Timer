@@ -298,7 +298,7 @@ function App() {
 function TopBar({ theme, phaseIdx, total, gps, useManual, setUseManual, running, completed, overallProgress }) {
   return (
     <div style={{ display: "flex", alignItems: "stretch", borderBottom: `2px solid ${theme.line}`, background: theme.surface }}>
-      <div style={{ padding: "14px 24px", borderRight: `2px solid ${theme.line}`, display: "flex", alignItems: "center", gap: 14 }}>
+      <div style={{ padding: "10px 16px", borderRight: `2px solid ${theme.line}`, display: "flex", alignItems: "center", gap: 14 }}>
         <div style={{ width: 14, height: 14, background: running ? theme.go : (completed ? theme.accent : theme.dim), borderRadius: 2, boxShadow: running ? `0 0 12px ${theme.go}` : "none" }} />
         <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 700, fontSize: 22, letterSpacing: 2, color: theme.ink }}>
           DRIVE CYCLE · BMW FEDERAL
@@ -356,7 +356,7 @@ function topBtnStyle(theme, active) {
 
 function LeftPhaseList({ theme, phaseIdx }) {
   return (
-    <div style={{ width: 300, borderRight: `2px solid ${theme.line}`, padding: "16px 0", display: "flex", flexDirection: "column", background: theme.bg }}>
+    <div style={{ width: 240, borderRight: `2px solid ${theme.line}`, padding: "8px 0", display: "flex", flexDirection: "column", background: theme.bg }}>
       <div style={{ padding: "0 20px 12px", fontFamily: "'Barlow Condensed', sans-serif", fontSize: 14, color: theme.dim, letterSpacing: 2 }}>SEQUENCE</div>
       {PHASES.map((p, i) => {
         const done = i < phaseIdx;
@@ -402,21 +402,21 @@ function CenterStage({ theme, phase, phaseIdx, running, completed, phaseRemainin
   return (
     <div style={{ flex: 1, position: "relative", display: "flex", flexDirection: "column", background: theme.bg, overflow: "hidden" }}>
       {/* Phase heading */}
-      <div style={{ padding: "18px 28px", borderBottom: `1px solid ${theme.line}`, display: "flex", alignItems: "baseline", gap: 20 }}>
-        <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 44, fontWeight: 800, color: theme.ink, letterSpacing: 2, lineHeight: 1 }}>
+      <div style={{ padding: "10px 16px", borderBottom: `1px solid ${theme.line}`, display: "flex", alignItems: "center", gap: 14, flexWrap: "nowrap", minWidth: 0 }}>
+        <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 32, fontWeight: 800, color: theme.ink, letterSpacing: 2, lineHeight: 1, whiteSpace: "nowrap", flexShrink: 0 }}>
           {phase.name.toUpperCase()}
         </div>
-        <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 18, color: theme.accent, letterSpacing: 2 }}>
+        <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 14, color: theme.accent, letterSpacing: 1, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", flexShrink: 1, minWidth: 0 }}>
           {phase.short}
         </div>
-        <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 10 }}>
-          <div style={{ width: 14, height: 14, background: statusColor, boxShadow: `0 0 14px ${statusColor}`, animation: running && !violation ? "pulse 1.2s infinite" : "none" }} />
-          <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 30, fontWeight: 800, color: statusColor, letterSpacing: 3 }}>{status}</div>
+        <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
+          <div style={{ width: 12, height: 12, background: statusColor, boxShadow: `0 0 14px ${statusColor}`, animation: running && !violation ? "pulse 1.2s infinite" : "none" }} />
+          <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 24, fontWeight: 800, color: statusColor, letterSpacing: 3 }}>{status}</div>
         </div>
       </div>
 
       {/* Timer */}
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", position: "relative", padding: "0 28px" }}>
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", position: "relative", padding: "0 16px" }}>
         {/* Corner tick marks */}
         <CornerTicks theme={theme} />
 
@@ -508,11 +508,11 @@ function CornerTicks({ theme }) {
 function bigBtn(theme, kind, flex) {
   const base = {
     flex: flex ? `0 0 ${flex}px` : 1,
-    padding: "20px 24px",
+    padding: "12px 16px",
     border: "none",
     borderRight: `2px solid ${theme.line}`,
     fontFamily: "'Barlow Condensed', sans-serif",
-    fontSize: 30,
+    fontSize: 24,
     fontWeight: 800,
     letterSpacing: 3,
     cursor: "pointer",
@@ -537,15 +537,15 @@ function RightConditions({ theme, phase, currentSpeedMph, units, simRpm, setSimR
   }, [t, currentSpeedMph]);
 
   return (
-    <div style={{ width: 340, borderLeft: `2px solid ${theme.line}`, background: theme.bg, display: "flex", flexDirection: "column" }}>
+    <div style={{ width: 270, borderLeft: `2px solid ${theme.line}`, background: theme.bg, display: "flex", flexDirection: "column" }}>
       {/* Speed gauge */}
-      <div style={{ padding: "16px 20px", borderBottom: `1px solid ${theme.line}` }}>
+      <div style={{ padding: "8px 14px", borderBottom: `1px solid ${theme.line}` }}>
         <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 14, color: theme.dim, letterSpacing: 2 }}>CURRENT SPEED</div>
         <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginTop: 4 }}>
           <div style={{
             fontFamily: "'JetBrains Mono', monospace",
             fontWeight: 700,
-            fontSize: 96,
+            fontSize: 72,
             lineHeight: 0.95,
             color: inBand ? theme.go : theme.accent,
             fontVariantNumeric: "tabular-nums",
@@ -569,7 +569,7 @@ function RightConditions({ theme, phase, currentSpeedMph, units, simRpm, setSimR
       </div>
 
       {/* Instruction */}
-      <div style={{ padding: "16px 20px", borderBottom: `1px solid ${theme.line}` }}>
+      <div style={{ padding: "8px 14px", borderBottom: `1px solid ${theme.line}` }}>
         <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 14, color: theme.dim, letterSpacing: 2 }}>INSTRUCTION</div>
         <div style={{ marginTop: 6, fontFamily: "'Barlow Condensed', sans-serif", fontSize: 22, fontWeight: 500, color: theme.ink, lineHeight: 1.2, letterSpacing: 0.5 }}>
           {phase.instruction}
@@ -577,7 +577,7 @@ function RightConditions({ theme, phase, currentSpeedMph, units, simRpm, setSimR
       </div>
 
       {/* RPM + Rules */}
-      <div style={{ padding: "16px 20px", borderBottom: `1px solid ${theme.line}` }}>
+      <div style={{ padding: "8px 14px", borderBottom: `1px solid ${theme.line}` }}>
         <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 14, color: theme.dim, letterSpacing: 2 }}>RPM LIMIT</div>
         <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginTop: 2 }}>
           <div style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, fontSize: 38, color: simRpm > 3000 ? theme.alert : theme.ink, fontVariantNumeric: "tabular-nums" }}>{simRpm}</div>
@@ -587,7 +587,7 @@ function RightConditions({ theme, phase, currentSpeedMph, units, simRpm, setSimR
         <input type="range" min="600" max="4000" value={simRpm} onChange={(e) => setSimRpm(+e.target.value)} style={{ width: "100%", accentColor: simRpm > 3000 ? theme.alert : theme.accent, marginTop: 4 }} />
       </div>
 
-      <div style={{ padding: "16px 20px", flex: 1, overflow: "auto" }}>
+      <div style={{ padding: "8px 14px", flex: 1, overflow: "auto" }}>
         <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 14, color: theme.dim, letterSpacing: 2 }}>CONDITIONS</div>
         <ul style={{ listStyle: "none", padding: 0, margin: "6px 0 0 0", display: "grid", gap: 4 }}>
           {phase.conditions.map((c, i) => (
