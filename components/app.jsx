@@ -122,7 +122,6 @@ function App() {
   const [manualSpeed, setManualSpeed] = useState(0);
   const [useManual, setUseManual] = useState(false);
   // Simulated RPM when no OBD link (used for violation detection fallback)
-  const [simRpm, setSimRpm] = useState(700);
   // Violation / auto-advance state
   const [violation, setViolation] = useState(null);
   const [advanceCountdown, setAdvanceCountdown] = useState(null);
@@ -156,8 +155,7 @@ function App() {
     if (!running) return;
     let v = null;
     const t = phase.target;
-    if (simRpm > RULES.maxRpm) v = RULES.violations.overRpm;
-    else if (currentSpeedMph > RULES.maxSpeedMph) v = RULES.violations.overSpeed;
+    if (currentSpeedMph > RULES.maxSpeedMph) v = RULES.violations.overSpeed;
     else if (t.type === "stationary" && currentSpeedMph > 2 && elapsed > 2) v = RULES.violations.moved;
     else if (t.type === "speed" && elapsed > 10 && (currentSpeedMph < t.min - 2 || currentSpeedMph > t.max + 2)) v = RULES.violations.outOfBand;
     setViolation(v);
@@ -274,8 +272,6 @@ function App() {
           phase={phase}
           currentSpeedMph={currentSpeedMph}
           units={tweaks.units}
-          simRpm={simRpm}
-          setSimRpm={setSimRpm}
           useManual={useManual}
           manualSpeed={manualSpeed}
           setManualSpeed={setManualSpeed}
@@ -518,7 +514,7 @@ function bigBtn(theme, kind, flex) {
   return { ...base, background: "transparent", color: theme.ink };
 }
 
-function RightConditions({ theme, phase, currentSpeedMph, units, simRpm, setSimRpm, useManual, manualSpeed, setManualSpeed }) {
+function RightConditions({ theme, phase, currentSpeedMph, units, useManual, manualSpeed, setManualSpeed }) {
   const t = phase.target;
   const inBand = useMemo(() => {
     if (t.type === "stationary") return currentSpeedMph <= 2;
@@ -559,24 +555,6 @@ function RightConditions({ theme, phase, currentSpeedMph, units, simRpm, setSimR
         )}
       </div>
 
-      {/* Instruction */}
-      <div style={{ padding: "8px 14px", borderBottom: `1px solid ${theme.line}` }}>
-        <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 11, color: theme.dim, letterSpacing: 2 }}>INSTRUCTION</div>
-        <div style={{ marginTop: 4, fontFamily: "'Barlow Condensed', sans-serif", fontSize: 16, fontWeight: 500, color: theme.ink, lineHeight: 1.2 }}>
-          {phase.instruction}
-        </div>
-      </div>
-
-      {/* RPM + Rules */}
-      <div style={{ padding: "8px 14px", borderBottom: `1px solid ${theme.line}` }}>
-        <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 11, color: theme.dim, letterSpacing: 2 }}>RPM LIMIT</div>
-        <div style={{ display: "flex", alignItems: "baseline", gap: 6, marginTop: 2 }}>
-          <div style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, fontSize: 28, color: simRpm > 3000 ? theme.alert : theme.ink, fontVariantNumeric: "tabular-nums" }}>{simRpm}</div>
-          <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 13, color: theme.dim, letterSpacing: 1 }}>/ 3000 MAX</div>
-        </div>
-        <div style={{ fontSize: 11, color: theme.dim, fontFamily: "'JetBrains Mono', monospace", marginTop: 2, letterSpacing: 1 }}>SIM · DRAG TO TEST VIOLATIONS</div>
-        <input type="range" min="600" max="4000" value={simRpm} onChange={(e) => setSimRpm(+e.target.value)} style={{ width: "100%", accentColor: simRpm > 3000 ? theme.alert : theme.accent, marginTop: 4 }} />
-      </div>
 
       <div style={{ padding: "8px 14px", flex: 1, overflow: "auto" }}>
         <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 11, color: theme.dim, letterSpacing: 2 }}>CONDITIONS</div>
