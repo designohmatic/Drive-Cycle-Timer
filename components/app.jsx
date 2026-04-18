@@ -282,9 +282,6 @@ function App() {
         />
       </div>
 
-      {/* Bottom status bar */}
-      <BottomBar theme={theme} violation={violation} advanceCountdown={advanceCountdown} phase={phase} running={running} completed={completed} />
-
       {/* Tweaks panel */}
       {editMode && (
         <TweaksPanel theme={theme} tweaks={tweaks} setTweak={setTweak} />
@@ -402,17 +399,29 @@ function CenterStage({ theme, phase, phaseIdx, running, completed, phaseRemainin
   return (
     <div style={{ flex: 1, position: "relative", display: "flex", flexDirection: "column", background: theme.bg, overflow: "hidden" }}>
       {/* Phase heading */}
-      <div style={{ padding: "10px 16px", borderBottom: `1px solid ${theme.line}`, display: "flex", alignItems: "center", gap: 14, flexWrap: "nowrap", minWidth: 0 }}>
-        <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 32, fontWeight: 800, color: theme.ink, letterSpacing: 2, lineHeight: 1, whiteSpace: "nowrap", flexShrink: 0 }}>
-          {phase.name.toUpperCase()}
+      <div style={{ borderBottom: `1px solid ${theme.line}`, flexShrink: 0 }}>
+        <div style={{ padding: "8px 16px", display: "flex", alignItems: "center", gap: 14, flexWrap: "nowrap", minWidth: 0 }}>
+          <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 32, fontWeight: 800, color: theme.ink, letterSpacing: 2, lineHeight: 1, whiteSpace: "nowrap", flexShrink: 0 }}>
+            {phase.name.toUpperCase()}
+          </div>
+          <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 14, color: theme.accent, letterSpacing: 1, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", flexShrink: 1, minWidth: 0 }}>
+            {phase.short}
+          </div>
+          <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
+            <div style={{ width: 12, height: 12, background: statusColor, boxShadow: `0 0 14px ${statusColor}`, animation: running && !violation ? "pulse 1.2s infinite" : "none" }} />
+            <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 24, fontWeight: 800, color: statusColor, letterSpacing: 3 }}>{status}</div>
+          </div>
         </div>
-        <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 14, color: theme.accent, letterSpacing: 1, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", flexShrink: 1, minWidth: 0 }}>
-          {phase.short}
-        </div>
-        <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
-          <div style={{ width: 12, height: 12, background: statusColor, boxShadow: `0 0 14px ${statusColor}`, animation: running && !violation ? "pulse 1.2s infinite" : "none" }} />
-          <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 24, fontWeight: 800, color: statusColor, letterSpacing: 3 }}>{status}</div>
-        </div>
+        {violation && (
+          <div style={{ padding: "6px 16px", background: theme.alert, color: "#fff", fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 800, fontSize: 18, letterSpacing: 2 }}>
+            ⚠ {violation} — RESTARTING
+          </div>
+        )}
+        {!violation && advanceCountdown != null && (
+          <div style={{ padding: "6px 16px", background: theme.go, color: "#000", fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 800, fontSize: 18, letterSpacing: 2 }}>
+            ✓ PHASE CLEAR — ADVANCING IN {advanceCountdown}…
+          </div>
+        )}
       </div>
 
       {/* Timer */}
@@ -448,23 +457,12 @@ function CenterStage({ theme, phase, phaseIdx, running, completed, phaseRemainin
           }} />
         </div>
 
-        {/* Auto-advance banner */}
-        {advanceCountdown != null && (
-          <div style={{
-            marginTop: 20, padding: "14px 28px",
-            background: theme.go, color: "#000",
-            fontFamily: "'Barlow Condensed', sans-serif",
-            fontWeight: 800, fontSize: 32, letterSpacing: 3,
-          }}>
-            ✓ PHASE CLEAR — ADVANCING IN {advanceCountdown}…
-          </div>
-        )}
         {completed && (
           <div style={{
-            marginTop: 20, padding: "18px 32px",
+            marginTop: 16, padding: "14px 24px",
             background: theme.accent, color: theme.accentInk,
             fontFamily: "'Barlow Condensed', sans-serif",
-            fontWeight: 800, fontSize: 38, letterSpacing: 3,
+            fontWeight: 800, fontSize: 28, letterSpacing: 3,
           }}>
             ✓ DRIVE CYCLE COMPLETE — KEY OFF
           </div>
