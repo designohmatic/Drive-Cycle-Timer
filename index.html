@@ -16,7 +16,9 @@
 
   <style>
     * { box-sizing: border-box; }
-    html, body, #root { height: 100%; margin: 0; padding: 0; background: #000; overscroll-behavior: none; -webkit-font-smoothing: antialiased; }
+    html { height: -webkit-fill-available; }
+    body { min-height: 100vh; min-height: -webkit-fill-available; margin: 0; padding: 0; background: #000; overscroll-behavior: none; -webkit-font-smoothing: antialiased; overflow: hidden; }
+    #root { height: 100vh; height: -webkit-fill-available; overflow: hidden; }
     body { font-family: 'Barlow Condensed', 'Helvetica Neue', sans-serif; color: #F5F5F5; }
     button { font-family: inherit; }
     button:focus-visible { outline: 2px solid #FFD400; outline-offset: 2px; }

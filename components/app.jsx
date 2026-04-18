@@ -130,7 +130,7 @@ function App() {
   // Force repaint on iOS orientation change (fixes black screen bug)
   const [, forceUpdate] = useState(0);
   useEffect(() => {
-    const handler = () => setTimeout(() => forceUpdate(n => n + 1), 100);
+    const handler = () => setTimeout(() => { window.scrollTo(0, 0); forceUpdate(n => n + 1); }, 150);
     window.addEventListener("orientationchange", handler);
     screen.orientation?.addEventListener("change", handler);
     return () => {
@@ -735,7 +735,7 @@ function TweaksPanel({ theme, tweaks, setTweak }) {
 // ---------- styles ----------
 function rootStyle(theme) {
   return {
-    position: "fixed", inset: 0,
+    height: "100%",
     background: theme.bg, color: theme.ink,
     display: "flex", flexDirection: "column",
     fontFamily: "'Barlow Condensed', 'Helvetica Neue', sans-serif",
