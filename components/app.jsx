@@ -127,6 +127,18 @@ function App() {
   const [advanceCountdown, setAdvanceCountdown] = useState(null);
   const [editMode, setEditMode] = useState(false);
 
+  // Force repaint on iOS orientation change (fixes black screen bug)
+  const [, forceUpdate] = useState(0);
+  useEffect(() => {
+    const handler = () => setTimeout(() => forceUpdate(n => n + 1), 100);
+    window.addEventListener("orientationchange", handler);
+    screen.orientation?.addEventListener("change", handler);
+    return () => {
+      window.removeEventListener("orientationchange", handler);
+      screen.orientation?.removeEventListener("change", handler);
+    };
+  }, []);
+
   const theme = THEMES[tweaks.theme] || THEMES.hivis;
   const phase = PHASES[phaseIdx];
   const speak = useVoice(tweaks.audioOn);
